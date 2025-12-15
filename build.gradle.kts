@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.modelcontextprotocol:kotlin-sdk:0.6.0")
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.4.0")
     implementation("io.ktor:ktor-client-core:3.0.3")
     implementation("io.ktor:ktor-client-cio:3.0.3")
     implementation("io.ktor:ktor-client-content-negotiation:3.0.3")
@@ -37,6 +37,9 @@ tasks.jar {
     // Include all dependencies in the JAR
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Exclude signature files to prevent verification errors
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
 }
 
 tasks.test {
